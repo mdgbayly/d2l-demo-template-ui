@@ -95,11 +95,30 @@
 				vertical-align: middle;
 				white-space: nowrap;
 				width: auto;
-
 			}
 			:host ::content button:focus,
 			:host ::content button:hover {
 				background-color: var(--d2l-color-gypsum);
+			}
+			@media(max-width: 600px) {
+				:host .d2l-demo-template-header {
+					display: block;
+				}
+				:host .d2l-heading-4 {
+					display: block;
+					flex: none;
+					max-width: 100%;
+					overflow-x: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+				:host .d2l-demo-meta {
+					display: block;
+					margin-top: 10px;
+				}
+				:host .d2l-demo-meta label:first-of-type {
+					margin: 0;
+				}
 			}
 		</style>
 		<div class="d2l-demo-template-header d2l-typography">
