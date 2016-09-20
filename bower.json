@@ -1,0 +1,19 @@
+{
+  "name": "d2l-demo-template",
+  "description": "Polymer-based component for demo page template",
+  "private": true,
+  "main": "d2l-demo-template.html",
+  "license": "Apache-2.0",
+  "ignore": [
+    "test",
+    ".editorconfig",
+    ".gitignore",
+    ".travis.yml",
+    "package.json"
+  ],
+  "dependencies": {
+    "d2l-colors": "vui-colors#~2.1.0",
+    "d2l-typography": "vui-typography#~4.1.0",
+    "polymer": "^1.5.0"
+  }
+}

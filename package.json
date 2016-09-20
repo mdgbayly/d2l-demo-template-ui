@@ -1,0 +1,24 @@
+{
+  "name": "d2l-demo-template",
+  "private": true,
+  "description": "Polymer-based component for demo page template",
+  "scripts": {
+    "postinstall": "bower install",
+    "test": "npm run test:lint:js && npm run test:lint:wc",
+    "test:lint:js": "eslint *.html",
+    "test:lint:wc": "polylint --input *.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dbatiste/d2l-demo-template-ui.git"
+  },
+  "author": "D2L Corporation",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "bower": "^1.7.7",
+    "eslint": "^2.10.2",
+    "eslint-config-brightspace": "^0.2.1",
+    "eslint-plugin-html": "^1.4.0",
+    "polylint": "^2.10.0"
+  }
+}

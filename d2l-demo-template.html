@@ -1,0 +1,218 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../d2l-colors/d2l-colors.html">
+<link rel="import" href="../d2l-typography/d2l-typography.html">
+<link rel="import" href="../d2l-typography/d2l-typography-shared-styles.html">
+
+<script>
+(function() {
+	'use strict';
+
+	var setupTypography = function() {
+		if (document.getElementById('d2l-demo-template-root-style')) {
+			return;
+		}
+
+		document.body.classList.add('d2l-typography');
+
+		var rootStyle = document.createElement('style', 'custom-style');
+		rootStyle.setAttribute('id', 'd2l-demo-template-root-style');
+		rootStyle.setAttribute('include', 'd2l-typography');
+		rootStyle.appendChild(document.createTextNode('html { font-size: 20px; font-weight: 300; }'));
+		document.head.appendChild(rootStyle);
+
+	};
+
+	setupTypography();
+
+})();
+</script>
+
+<dom-module id="d2l-demo-template">
+
+	<template>
+		<style include="d2l-colors d2l-typography d2l-typography-shared-styles">
+			:host {
+				box-sizing: border-box;
+				display: block;
+				width: 100%;
+			}
+			:host .d2l-demo-template-header {
+				background-color: black;
+				color: white;
+				display: flex;
+				padding: 0.5rem 1rem;
+			}
+			:host .d2l-heading-4 {
+				flex: auto;
+				margin: 1rem;
+			}
+			:host .d2l-demo-meta {
+				@apply(--d2l-small-text);
+				color: white;
+				flex: none;
+			}
+			:host .d2l-demo-meta label {
+				margin-left: 10px;
+			}
+			:host .d2l-demo-meta label:last-of-type {
+				margin-right: 10px;
+			}
+			:host a {
+				color: white;
+				text-decoration: none;
+			}
+			:host a:focus,
+			:host a:hover {
+				text-decoration: underline;
+			}
+			:host .d2l-demo-template-content {
+				padding: 1rem;
+			}
+			:host .d2l-demo-template-actions {
+				margin-bottom: 1rem;
+			}
+			:host ::content button {
+				background-color: var(--d2l-color-woolonardo);
+				border-width: 1px;
+				border-style: solid;
+				border-radius: 0.3rem;
+				border-color: var(--d2l-color-titanius);
+				box-sizing: border-box;
+				color: var(--d2l-color-ferrite);
+				cursor: pointer;
+				display: inline-block;
+				font-family: inherit;
+				font-size: 0.7rem;
+				font-weight: 700;
+				letter-spacing: 0.02rem;
+				line-height: 1rem;
+				margin: 0;
+				min-height: -webkit-calc(2rem + 2px);
+				min-height: calc(2rem + 2px);
+				outline: none;
+				padding: 0.5rem 1.5rem;
+				text-align: center;
+				vertical-align: middle;
+				white-space: nowrap;
+				width: auto;
+
+			}
+			:host ::content button:focus,
+			:host ::content button:hover {
+				background-color: var(--d2l-color-gypsum);
+			}
+		</style>
+		<div class="d2l-demo-template-header d2l-typography">
+			<h1 class="d2l-heading-4" style="margin: 0;">[[title]]</h1>
+			<div class="d2l-demo-meta">
+				<label>
+					Font Size <select on-change="_onFontSizeChange"><option>default</option><option>24</option><option>22</option><option>20</option><option>18</option></select>
+				</label>
+				<label for="demo-config-readable-font">
+					Readable Font <input id="demo-config-readable-font" on-change="_onReadableFontChange" type="checkbox" />
+				</label>
+				<label for="demo-config-rtl">
+					RTL <input id="demo-config-rtl" on-change="_onRtlChange" type="checkbox" />
+				</label>
+				<a class="d2l-demo-use-shadow"></a>
+			</div>
+		</div>
+		<div class="d2l-demo-template-content">
+			<div class="d2l-demo-template-actions">
+				<content select=".d2l-demo-actions"></content>
+			</div>
+			<content select=".d2l-demo-fixture"></content>
+		</div>
+	</template>
+
+	<script>
+		Polymer({
+			is: 'd2l-demo-template',
+
+			properties: {
+				title: String
+			},
+
+			ready: function() {
+				this._updateShadowState();
+			},
+
+			_getFixtures: function() {
+				return this.queryAllEffectiveChildren('.d2l-demo-fixture');
+			},
+
+			_onFontSizeChange: function(e) {
+				var target = Polymer.dom(e).rootTarget;
+				var value = target.options[target.selectedIndex].value;
+				if (value === 'default') {
+					document.documentElement.style.fontSize = '';
+				} else {
+					document.documentElement.style.fontSize = value + 'px';
+				}
+			},
+
+			_onReadableFontChange: function(e) {
+				var fixtures = this._getFixtures();
+				if (!fixtures || fixtures.length === 0) {
+					return;
+				}
+				var useReadableFont = Polymer.dom(e).rootTarget.checked;
+				var readableFontClass = 'd2l-dyslexic';
+				for (var i = 0; i < fixtures.length; i++) {
+					if (useReadableFont && !fixtures[i].classList.contains(readableFontClass)) {
+						fixtures[i].classList.add(readableFontClass);
+					} else if (!useReadableFont && fixtures[i].classList.contains(readableFontClass)) {
+						fixtures[i].classList.remove(readableFontClass);
+					}
+				}
+			},
+
+			_onRtlChange: function(e) {
+				var fixtures = this._getFixtures();
+				if (!fixtures || fixtures.length === 0) {
+					return;
+				}
+				var isRtl = Polymer.dom(e).rootTarget.checked;
+				for (var i = 0; i < fixtures.length; i++) {
+					if (isRtl && fixtures[i].dir !== 'rtl') {
+						fixtures[i].dir = 'rtl';
+					} else if (!isRtl && fixtures[i].dir === 'rtl') {
+						fixtures[i].dir = '';
+					}
+				}
+			},
+
+			_updateShadowState: function() {
+				var useShadow = this.$$('.d2l-demo-use-shadow');
+				if (Polymer.Settings.nativeShadow) {
+					if (Polymer.Settings.useShadow) {
+						useShadow.textContent = 'Use Shady';
+						useShadow.setAttribute('href', this._updateQueryStringParameter(window.location.href, 'dom', ''));
+					} else {
+						useShadow.textContent = 'Use Shadow';
+						useShadow.setAttribute('href', this._updateQueryStringParameter(window.location.href, 'dom', 'shadow'));
+					}
+				} else {
+					useShadow.textContent = 'Shadow Not Supported';
+				}
+			},
+
+			_updateQueryStringParameter: function(uri, key, value) {
+				var re = new RegExp('([?|&])' + key + '=.*?(&|#|$)', 'i');
+				if (uri.match(re)) {
+					return uri.replace(re, '$1' + key + '=' + value + '$2');
+				} else {
+					var hash =  '';
+					if (uri.indexOf('#') !== -1) {
+						hash = uri.replace(/.*#/, '#');
+						uri = uri.replace(/#.*/, '');
+					}
+					var separator = uri.indexOf('?') !== -1 ? '&' : '?';
+					return uri + separator + key + '=' + value + hash;
+				}
+			}
+
+		});
+	</script>
+
+</dom-module>
