@@ -34,7 +34,7 @@ bower install d2l-demo-template --save-dev
 
 See the [VUI Best Practices & Style Guide](https://github.com/Brightspace/valence-ui-docs/wiki/Best-Practices-&-Style-Guide) for information on VUI naming conventions, plus information about the [EditorConfig](http://editorconfig.org) rules used in this repo.
 
-[bower-url]: http://bower.io/search/?q=d2l-menu
-[bower-image]: https://img.shields.io/bower/v/d2l-menu.svg
-[ci-url]: https://travis-ci.org/Brightspace/d2l-menu-ui
-[ci-image]: https://travis-ci.org/Brightspace/d2l-menu-ui.svg?branch=master
+[bower-url]: http://bower.io/search/?q=d2l-demo-template
+[bower-image]: https://img.shields.io/bower/v/d2l-demo-template.svg
+[ci-url]: https://travis-ci.org/Brightspace/d2l-demo-template-ui
+[ci-image]: https://travis-ci.org/Brightspace/d2l-demo-template-ui.svg?branch=master
