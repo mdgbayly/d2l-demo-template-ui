@@ -51,15 +51,14 @@
 				color: white;
 				flex: none;
 			}
-			:host .d2l-demo-meta label {
+			:host .d2l-demo-meta-control {
 				margin-left: 10px;
 			}
-			:host .d2l-demo-meta label:last-of-type {
+			:host .d2l-demo-meta-control:last-child {
 				margin-right: 10px;
 			}
 			:host .d2l-demo-meta select {
 				@apply(--d2l-small-text);
-				color: white;
 				outline-color: white;
 			}
 			:host a {
@@ -130,16 +129,14 @@
 		<div class="d2l-demo-template-header d2l-typography">
 			<h1 class="d2l-heading-4" style="margin: 0;">[[title]]</h1>
 			<div class="d2l-demo-meta">
-				<label>
-					Font Size <select on-change="_onFontSizeChange"><option>default</option><option>24</option><option>22</option><option>20</option><option>18</option></select>
+				<label class="d2l-demo-meta-control" for="demo-config-font-size">
+					Font Size <select id="demo-config-font-size" on-change="_onFontSizeChange"><option>default</option><option>24</option><option>22</option><option>20</option><option>18</option></select>
 				</label>
-				<label for="demo-config-readable-font">
+				<label class="d2l-demo-meta-control" for="demo-config-readable-font">
 					Readable Font <input id="demo-config-readable-font" on-change="_onReadableFontChange" type="checkbox" />
 				</label>
-				<label for="demo-config-rtl">
-					RTL <input id="demo-config-rtl" on-change="_onRtlChange" type="checkbox" />
-				</label>
-				<a class="d2l-demo-use-shadow"></a>
+				<a class="d2l-demo-meta-control d2l-demo-direction"></a>
+				<a class="d2l-demo-meta-control d2l-demo-use-shadow"></a>
 			</div>
 		</div>
 		<div class="d2l-demo-template-content">
@@ -159,6 +156,7 @@
 			},
 
 			ready: function() {
+				this._updateDirectionState();
 				this._updateShadowState();
 			},
 
@@ -192,12 +190,23 @@
 				}
 			},
 
-			_onRtlChange: function(e) {
+			_updateDirectionState: function(e) {
 				var fixtures = this._getFixtures();
 				if (!fixtures || fixtures.length === 0) {
 					return;
 				}
-				var isRtl = Polymer.dom(e).rootTarget.checked;
+
+				var isRtl = (window.location.search.indexOf('dir=rtl') > -1);
+
+				var changeDirection = this.$$('.d2l-demo-direction');
+				if (isRtl) {
+					changeDirection.textContent = 'LTR';
+					changeDirection.setAttribute('href', this._updateQueryStringParameter(window.location.href, 'dir', ''));
+				} else {
+					changeDirection.textContent = 'RTL';
+					changeDirection.setAttribute('href', this._updateQueryStringParameter(window.location.href, 'dir', 'rtl'));
+				}
+
 				for (var i = 0; i < fixtures.length; i++) {
 					if (isRtl && fixtures[i].dir !== 'rtl') {
 						fixtures[i].dir = 'rtl';
@@ -205,6 +214,7 @@
 						fixtures[i].dir = '';
 					}
 				}
+
 			},
 
 			_updateShadowState: function() {
