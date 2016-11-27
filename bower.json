@@ -11,8 +11,8 @@
     "package.json"
   ],
   "dependencies": {
-    "d2l-colors": "vui-colors#~2.1.0",
-    "d2l-typography": "vui-typography#~4.1.0",
-    "polymer": "^1.5.0"
+    "d2l-colors": "^2.2.0",
+    "d2l-typography": "^5.1.0",
+    "polymer": "^1.7.0"
   }
 }
