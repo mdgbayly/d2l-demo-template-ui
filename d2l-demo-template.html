@@ -192,7 +192,7 @@
 
 			_updateDirectionState: function() {
 				var fixtures = this._getFixtures();
-				if (!fixtures || fixtures.length === 0) {
+				if (!fixtures) {
 					return;
 				}
 
@@ -207,11 +207,19 @@
 					changeDirection.setAttribute('href', this._updateQueryStringParameter(window.location.href, 'dir', 'rtl'));
 				}
 
-				for (var i = 0; i < fixtures.length; i++) {
-					if (isRtl && fixtures[i].dir !== 'rtl') {
-						fixtures[i].dir = 'rtl';
-					} else if (!isRtl && fixtures[i].dir === 'rtl') {
-						fixtures[i].dir = '';
+				var update = function(fixture) {
+					if (isRtl && fixture.dir !== 'rtl') {
+						fixture.dir = 'rtl';
+					} else if (!isRtl && fixture.dir === 'rtl') {
+						fixture.dir = '';
+					}
+				};
+
+				if (fixtures.length === 0) {
+					update(document.body);
+				} else {
+					for (var i = 0; i < fixtures.length; i++) {
+						update(fixtures[i]);
 					}
 				}
 
