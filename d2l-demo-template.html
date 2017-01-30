@@ -258,7 +258,7 @@
 				if (Polymer.Settings.hasNativeCSSProperties) {
 					if (Polymer.Settings.useNativeCSSProperties) {
 						useNativeCSSProps.textContent = 'Use CSS Props Shim';
-						useNativeCSSProps.setAttribute('href', this._updateQueryStringParameter(window.location.href, 'useNativeCSSProperties', 'false'));
+						useNativeCSSProps.setAttribute('href', this._removeQueryStringParameter(window.location.href, 'useNativeCSSProperties'));
 					} else {
 						useNativeCSSProps.textContent = 'Use Native CSS Props';
 						useNativeCSSProps.setAttribute('href', this._updateQueryStringParameter(window.location.href, 'useNativeCSSProperties', 'true'));
@@ -266,6 +266,24 @@
 				} else {
 					useNativeCSSProps.textContent = 'Native CSS Props Not Supported';
 				}
+			},
+
+			_removeQueryStringParameter: function(uri, key) {
+				var newURI = uri.split('?')[0], qsParam, qsParams = [];
+				var qs = (uri.indexOf('?') !== -1) ? uri.split('?')[1] : null;
+				if (qs) {
+					qsParams = qs.split('&');
+					for (var i = qsParams.length - 1; i >= 0; i -= 1) {
+						qsParam = qsParams[i].split('=')[0];
+						if (qsParam === key) {
+							qsParams.splice(i, 1);
+						}
+					}
+					if (qsParams.length > 0) {
+						newURI = newURI + '?' + qsParams.join('&');
+					}
+				}
+				return newURI;
 			},
 
 			_updateQueryStringParameter: function(uri, key, value) {
