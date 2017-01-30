@@ -1,3 +1,13 @@
+<script>
+(function() {
+	'use strict';
+	// currently Polymer requries lazyRegister in order to use native CSS properties
+	window.Polymer = {
+		lazyRegister: true
+	};
+})();
+</script>
+
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../d2l-colors/d2l-colors.html">
 <link rel="import" href="../d2l-typography/d2l-typography.html">
@@ -137,6 +147,7 @@
 				</label>
 				<a class="d2l-demo-meta-control d2l-demo-direction"></a>
 				<a class="d2l-demo-meta-control d2l-demo-use-shadow"></a>
+				<a class="d2l-demo-meta-control d2l-demo-use-native-css-props"></a>
 			</div>
 		</div>
 		<div class="d2l-demo-template-content">
@@ -158,6 +169,7 @@
 			ready: function() {
 				this._updateDirectionState();
 				this._updateShadowState();
+				this._updateNativeCSSPropsState();
 			},
 
 			_getFixtures: function() {
@@ -237,6 +249,22 @@
 					}
 				} else {
 					useShadow.textContent = 'Shadow Not Supported';
+				}
+			},
+
+			_updateNativeCSSPropsState: function() {
+				var useNativeCSSProps = this.$$('.d2l-demo-use-native-css-props');
+
+				if (Polymer.Settings.hasNativeCSSProperties) {
+					if (Polymer.Settings.useNativeCSSProperties) {
+						useNativeCSSProps.textContent = 'Use CSS Props Shim';
+						useNativeCSSProps.setAttribute('href', this._updateQueryStringParameter(window.location.href, 'useNativeCSSProperties', 'false'));
+					} else {
+						useNativeCSSProps.textContent = 'Use Native CSS Props';
+						useNativeCSSProps.setAttribute('href', this._updateQueryStringParameter(window.location.href, 'useNativeCSSProperties', 'true'));
+					}
+				} else {
+					useNativeCSSProps.textContent = 'Native CSS Props Not Supported';
 				}
 			},
 
