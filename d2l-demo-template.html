@@ -10,8 +10,8 @@
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../d2l-colors/d2l-colors.html">
-<link rel="import" href="../d2l-typography/d2l-typography.html">
-<link rel="import" href="../d2l-typography/d2l-typography-shared-styles.html">
+<!-- <link rel="import" href="../d2l-typography/d2l-typography.html">
+<link rel="import" href="../d2l-typography/d2l-typography-shared-styles.html"> -->
 
 <script>
 (function() {
@@ -24,11 +24,13 @@
 
 		document.body.classList.add('d2l-typography');
 
+		var customStyle = document.createElement('custom-style');
 		var rootStyle = document.createElement('style', 'custom-style');
 		rootStyle.setAttribute('id', 'd2l-demo-template-root-style');
 		rootStyle.setAttribute('include', 'd2l-typography');
 		rootStyle.appendChild(document.createTextNode('html { font-size: 20px; font-weight: 300; }'));
-		document.head.appendChild(rootStyle);
+		customStyle.appendChild(rootStyle);
+		document.head.appendChild(customStyle);
 
 	};
 
@@ -85,7 +87,7 @@
 			:host .d2l-demo-template-actions {
 				margin-bottom: 0.7rem;
 			}
-			:host .d2l-demo-template-actions ::content button {
+			:host .d2l-demo-template-actions ::slotted(button) {
 				background-color: var(--d2l-color-woolonardo);
 				border-width: 1px;
 				border-style: solid;
@@ -111,8 +113,8 @@
 				white-space: nowrap;
 				width: auto;
 			}
-			:host .d2l-demo-template-actions ::content button:focus,
-			:host .d2l-demo-template-actions ::content button:hover {
+			:host .d2l-demo-template-actions ::slotted(button:focus),
+			:host .d2l-demo-template-actions ::slotted(button:hover) {
 				background-color: var(--d2l-color-gypsum);
 			}
 			@media(max-width: 600px) {
@@ -152,9 +154,9 @@
 		</div>
 		<div class="d2l-demo-template-content">
 			<div class="d2l-demo-template-actions">
-				<content select=".d2l-demo-actions"></content>
+				<slot name="d2l-demo-actions"></slot>
 			</div>
-			<content select=".d2l-demo-fixture"></content>
+			<slot name="d2l-demo-fixture"></slot>
 		</div>
 	</template>
 
@@ -239,33 +241,42 @@
 
 			_updateShadowState: function() {
 				var useShadow = this.$$('.d2l-demo-use-shadow');
-				if (Polymer.Settings.nativeShadow) {
+				// if (Polymer.Settings.nativeShadow) {
 					if (Polymer.Settings.useShadow) {
 						useShadow.textContent = 'Use Shady';
-						useShadow.setAttribute('href', this._updateQueryStringParameter(window.location.href, 'dom', ''));
+						var href = this._removeQueryStringParameter(window.location.href, 'dom');
+						href = this._updateQueryStringParameter(href, 'wc-shadydom');
+						useShadow.setAttribute('href', href);
 					} else {
 						useShadow.textContent = 'Use Shadow';
-						useShadow.setAttribute('href', this._updateQueryStringParameter(window.location.href, 'dom', 'shadow'));
+						var href = this._updateQueryStringParameter(window.location.href, 'dom', 'shadow');
+						href = this._removeQueryStringParameter(href, 'wc-shadydom');
+						useShadow.setAttribute('href', href);
+
 					}
-				} else {
-					useShadow.textContent = 'Shadow Not Supported';
-				}
+				// } else {
+				// 	useShadow.textContent = 'Shadow Not Supported';
+				// }
 			},
 
 			_updateNativeCSSPropsState: function() {
 				var useNativeCSSProps = this.$$('.d2l-demo-use-native-css-props');
 
-				if (Polymer.Settings.hasNativeCSSProperties) {
+				// if (Polymer.Settings.hasNativeCSSProperties) {
 					if (Polymer.Settings.useNativeCSSProperties) {
 						useNativeCSSProps.textContent = 'Use CSS Props Shim';
-						useNativeCSSProps.setAttribute('href', this._removeQueryStringParameter(window.location.href, 'useNativeCSSProperties'));
+						var href = this._removeQueryStringParameter(window.location.href, 'useNativeCSSProperties')
+						href = this._updateQueryStringParameter(href, 'wc-shimcssproperties')
+						useNativeCSSProps.setAttribute('href', href);
 					} else {
 						useNativeCSSProps.textContent = 'Use Native CSS Props';
-						useNativeCSSProps.setAttribute('href', this._updateQueryStringParameter(window.location.href, 'useNativeCSSProperties', 'true'));
+						var href = this._updateQueryStringParameter(window.location.href, 'useNativeCSSProperties', 'true');
+						href = this._removeQueryStringParameter(href, 'wc-shimcssproperties');
+						useNativeCSSProps.setAttribute('href', href);
 					}
-				} else {
-					useNativeCSSProps.textContent = 'Native CSS Props Not Supported';
-				}
+				// } else {
+				// 	useNativeCSSProps.textContent = 'Native CSS Props Not Supported';
+				// }
 			},
 
 			_removeQueryStringParameter: function(uri, key) {
@@ -289,7 +300,7 @@
 			_updateQueryStringParameter: function(uri, key, value) {
 				var re = new RegExp('([?|&])' + key + '=.*?(&|#|$)', 'i');
 				if (uri.match(re)) {
-					return uri.replace(re, '$1' + key + '=' + value + '$2');
+					return value ? uri.replace(re, '$1' + key + '=' + value + '$2') : uri.replace(re, '$1' + key + '$2');
 				} else {
 					var hash =  '';
 					if (uri.indexOf('#') !== -1) {
@@ -297,7 +308,7 @@
 						uri = uri.replace(/#.*/, '');
 					}
 					var separator = uri.indexOf('?') !== -1 ? '&' : '?';
-					return uri + separator + key + '=' + value + hash;
+					return value ? uri + separator + key + '=' + value + hash : uri + separator + key + hash;
 				}
 			}
 
