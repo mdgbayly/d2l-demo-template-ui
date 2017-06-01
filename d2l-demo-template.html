@@ -314,7 +314,7 @@
 
 			_hasNativeShadowDOM: function() {
 				return Polymer.Settings.nativeShadow || document.head.createShadowRoot || document.head.attachShadow;
-			}
+			},
 
 			_hasNativeCSSProps: function() {
 				return Polymer.Settings.hasNativeCSSProperties || (window.CSS && window.CSS.supports('--fake-var', 0));
