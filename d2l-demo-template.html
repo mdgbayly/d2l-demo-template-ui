@@ -241,7 +241,7 @@
 
 			_updateShadowState: function() {
 				var useShadow = this.$$('.d2l-demo-use-shadow');
-				// if (Polymer.Settings.nativeShadow) {
+				 if (Polymer.Settings.nativeShadow || (window.ShadyCSS && window.ShadyCSS.nativeShadow)) {
 					if (Polymer.Settings.useShadow) {
 						useShadow.textContent = 'Use Shady';
 						var href = this._removeQueryStringParameter(window.location.href, 'dom');
@@ -254,15 +254,15 @@
 						useShadow.setAttribute('href', href);
 
 					}
-				// } else {
-				// 	useShadow.textContent = 'Shadow Not Supported';
-				// }
+				} else {
+					useShadow.textContent = 'Shadow Not Supported';
+				}
 			},
 
 			_updateNativeCSSPropsState: function() {
 				var useNativeCSSProps = this.$$('.d2l-demo-use-native-css-props');
 
-				// if (Polymer.Settings.hasNativeCSSProperties) {
+				if (Polymer.Settings.nativeShadow || (window.ShadyCSS && window.ShadyCSS.nativeCSS)) {
 					if (Polymer.Settings.useNativeCSSProperties) {
 						useNativeCSSProps.textContent = 'Use CSS Props Shim';
 						var href = this._removeQueryStringParameter(window.location.href, 'useNativeCSSProperties')
@@ -274,9 +274,9 @@
 						href = this._removeQueryStringParameter(href, 'wc-shimcssproperties');
 						useNativeCSSProps.setAttribute('href', href);
 					}
-				// } else {
-				// 	useNativeCSSProps.textContent = 'Native CSS Props Not Supported';
-				// }
+				} else {
+					useNativeCSSProps.textContent = 'Native CSS Props Not Supported';
+				}
 			},
 
 			_removeQueryStringParameter: function(uri, key) {
