@@ -3,10 +3,10 @@
   "private": true,
   "description": "Polymer-based component for demo page template",
   "scripts": {
-    "postinstall": "bower install",
+    "postinstall": "polymer install --variants",
     "test": "npm run test:lint:js && npm run test:lint:wc",
     "test:lint:js": "eslint *.html",
-    "test:lint:wc": "polylint --input *.html"
+    "test:lint:wc": "polymer lint"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,6 @@
     "eslint": "^2.10.2",
     "eslint-config-brightspace": "^0.2.1",
     "eslint-plugin-html": "^1.4.0",
-    "polylint": "^2.10.0"
+    "polymer-cli": "^1.1.0"
   }
 }

@@ -241,15 +241,16 @@
 
 			_updateShadowState: function() {
 				var useShadow = this.$$('.d2l-demo-use-shadow');
-				 if (this._hasNativeShadowDOM()) {
+				var href;
+				if (this._hasNativeShadowDOM()) {
 					if (Polymer.Settings.useShadow) {
 						useShadow.textContent = 'Use Shady';
-						var href = this._removeQueryStringParameter(window.location.href, 'dom');
+						href = this._removeQueryStringParameter(window.location.href, 'dom');
 						href = this._updateQueryStringParameter(href, 'wc-shadydom');
 						useShadow.setAttribute('href', href);
 					} else {
 						useShadow.textContent = 'Use Shadow';
-						var href = this._updateQueryStringParameter(window.location.href, 'dom', 'shadow');
+						href = this._updateQueryStringParameter(window.location.href, 'dom', 'shadow');
 						href = this._removeQueryStringParameter(href, 'wc-shadydom');
 						useShadow.setAttribute('href', href);
 
@@ -261,16 +262,16 @@
 
 			_updateNativeCSSPropsState: function() {
 				var useNativeCSSProps = this.$$('.d2l-demo-use-native-css-props');
-
+				var href;
 				if (this._hasNativeCSSProps()) {
 					if (Polymer.Settings.useNativeCSSProperties) {
 						useNativeCSSProps.textContent = 'Use CSS Props Shim';
-						var href = this._removeQueryStringParameter(window.location.href, 'useNativeCSSProperties')
-						href = this._updateQueryStringParameter(href, 'wc-shimcssproperties')
+						href = this._removeQueryStringParameter(window.location.href, 'useNativeCSSProperties');
+						href = this._updateQueryStringParameter(href, 'wc-shimcssproperties');
 						useNativeCSSProps.setAttribute('href', href);
 					} else {
 						useNativeCSSProps.textContent = 'Use Native CSS Props';
-						var href = this._updateQueryStringParameter(window.location.href, 'useNativeCSSProperties', 'true');
+						href = this._updateQueryStringParameter(window.location.href, 'useNativeCSSProperties', 'true');
 						href = this._removeQueryStringParameter(href, 'wc-shimcssproperties');
 						useNativeCSSProps.setAttribute('href', href);
 					}
@@ -313,7 +314,7 @@
 			},
 
 			_hasNativeShadowDOM: function() {
-				return Polymer.Settings.nativeShadow || document.head.createShadowRoot || document.head.attachShadow;
+				return Polymer.Settings.nativeShadow || document.head.createShadowRoot;
 			},
 
 			_hasNativeCSSProps: function() {
