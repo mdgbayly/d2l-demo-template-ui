@@ -20,10 +20,10 @@ bower install d2l-demo-template --save-dev
 </head>
 <body>
 	<d2l-demo-template title="my-fixture-title">
-		<div class="d2l-demo-actions">
+		<div slot="d2l-demo-actions">
 			<!-- your actions -->
 		</div>
-		<div class="d2l-demo-fixture">
+		<div slot="d2l-demo-fixture">
 			<!-- your fixture -->
 		</div>
 	</d2l-demo-template>

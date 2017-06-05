@@ -314,7 +314,9 @@
 			},
 
 			_hasNativeShadowDOM: function() {
-				return Polymer.Settings.nativeShadow || document.head.createShadowRoot;
+				// attachShadow gives false positives in FF/Safari
+				// Once v1 is supported by those browsers will need to update this feature detection
+				return Polymer.Settings.nativeShadow || document.head.createShadowRoot; // || document.head.attachShadow;
 			},
 
 			_hasNativeCSSProps: function() {
